@@ -3,6 +3,7 @@ import InvoicesApi from '../services/InvoicesApi';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import Pagination from '../components/Pagination';
+import { toast } from 'react-toastify';
 
 
 const Invoices  = (history) => {
@@ -26,6 +27,7 @@ const Invoices  = (history) => {
         try{
          const data = await  InvoicesApi.findAll();
             setInvoces(data);
+            toast.info("liste des factures");
        }catch(error){
            console.log(error.response)
        }
@@ -59,7 +61,7 @@ const Invoices  = (history) => {
   
     return ( <>
             <div className=" mb-2 mt-5 d-flex justify-content-between align-items-center">
-                <h1>list des clients</h1>
+                <h1>Liste des clients</h1>
                 <Link className="btn btn-success" to="/invoices/new">Créer une Facture</Link>
             </div>
             <div className="form-group">

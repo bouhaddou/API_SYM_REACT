@@ -3,6 +3,7 @@ import CustomersApi from '../services/CustomersApi';
 import { Link } from 'react-router-dom';
 import Pagination from "../components/Pagination"
 import TableLoader from '../components/loaders/tableLoader';
+import { toast } from 'react-toastify';
 
 const CustomersPage = () => {
     const [customers, setCustomers] = useState([]);
@@ -16,6 +17,7 @@ const CustomersPage = () => {
           const data = await  CustomersApi.findAll();
              setCustomers(data);
              setLoading(false);
+             toast.info("Liste des Clients ")
         }catch(error){
             console.log(error.response)
         }

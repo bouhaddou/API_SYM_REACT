@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Field from '../components/forms/Field';
 import { Link } from 'react-router-dom';
 import CustomersApi from '../services/CustomersApi';
+import { toast } from 'react-toastify';
 
 
 const CustomerPage = ({history,match}) => {
@@ -27,12 +28,23 @@ const CustomerPage = ({history,match}) => {
 
     const fetchcustomer = async () =>{
         try{
+            if(id !== "new")
+            { 
          const  {firstname,lastname,email,company} = await CustomersApi.findbyId(id);
             setCustomer({firstname,lastname,email,company});
+            
+                setEditing(true); 
+               toast.info("Modifier un Client");
+           }else{ 
+               toast.info("Ajouter un Client");
+               setEditing(false); 
+           }
         }catch(error){
             console.log(error.response);
         }
     }
+     
+
     useEffect(() =>{
         fetchcustomer();
     },[])
@@ -40,11 +52,13 @@ const CustomerPage = ({history,match}) => {
     const handleSbmit =async event => {
         event.preventDefault();
         try{
-            if( id === "new")
+            if(id === "new")
             {
                 await CustomersApi.add(customer);
+                toast.info("Vous êtes Ajouter le Client avec succée")
             }else{
                 await CustomersApi.update(id,customer);
+                toast.info("Vous êtes Modifier le Client avec succée")
             }
             setError({});
             history.push("/customers")
